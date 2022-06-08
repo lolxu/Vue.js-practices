@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue 3 Basics</title>
+    </head>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        .boxElseIf{
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+        .boxElse{
+            width: 100px;
+            height: 100px;
+            background-color: purple;
+        }
+        .boxShow{
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <body>
+        <div id = "app" v-cloak>
+            {{ greeting }}
+
+            <!-- There's the keyup event and also the keydown event -->
+            <!-- Pass in variables for functions with () here -->
+
+            <!-- the '.' is a modifier, it declares what specific part of the event it is listening to -->
+            <!-- e.g. here, it's listening to the ENTER key in keyup event -->
+            <!-- e.g. there are other things like @click.right (only listens to right click with the mouse) -->
+            <input @keyup.enter="greet(greeting + '!!!!!!!')" v-model="greeting" /> 
+
+            <hr />
+            
+            <!-- v-on is a directive that listens to certain events (like click event) -->
+            <!-- @event_name is the same as v-on:event_name VERY IMPORTANT!! -->
+            <button v-on:click="isVisible = !isVisible">Toggle Box</button>
+            <button @click="isVisible = !isVisible">Also Toggle Box</button>
+
+            <!-- @event_name can also call functions in the Vue app-->
+            <button @click="toggleBox">Toggle Box with Function</button>
+
+            <div v-if="isVisible" class = "box"></div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>    
+        <script>
+            let app = Vue.createApp({
+                // options object
+                data: function(){
+                    return{
+                        greeting: 'Hello Vue 3!',
+                        isVisible: false
+                    }
+                },
+
+                methods: {
+                    // a shorthand syntax for defining functions
+                    toggleBox() {
+                        // 'this' will allow functions to access variables defined above in data
+                        this.isVisible = !this.isVisible
+                    },
+                    greet(greeting) {
+                        // NOTE: don't use 'this' if you want the local variable
+                        console.log(greeting)
+                    }
+                }
+            })
+            app.mount('#app')
+        </script>
+    </body>
+</html>

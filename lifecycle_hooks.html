@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue 3 Basics</title>
+    </head>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <body>
+        <div id = "app" v-cloak>
+            <button @click="toggleBox">Toggle Box with Function</button>
+            <test-box v-if="isVisible" />
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>    
+        <script>
+            let app = Vue.createApp({
+                // options object
+                data: function(){
+                    return{
+                        greeting: 'Hello Vue 3!',
+                        isVisible: false
+                    }
+                },
+
+                methods: {
+                    // a shorthand syntax for defining functions
+                    toggleBox() {
+                        // 'this' will allow functions to access variables defined above in data
+                        this.isVisible = !this.isVisible
+                    }
+                },
+                // called everytime box is toggled because the method is called everytime
+                // everytime when data changes
+                updated(){
+                    console.log("updated")
+                }
+            })
+            // life cycle hooks added to component
+            // check Vue js documentation for all hooks
+            // created, mounted, unmounted are all examples of that
+            app.component('test-box', {
+                template: `
+                    <div class="box"></div>
+                `,
+                created(){
+                    console.log('created')
+                },
+                mounted(){
+                    console.log('mounted')
+                },
+                unmounted(){
+                    console.log('unmounted')
+                }
+            })
+            app.mount('#app')
+        </script>
+    </body>
+</html>
